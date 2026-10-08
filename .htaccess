@@ -1,4 +1,15 @@
 Options -MultiViews
 RewriteEngine On
+
+# Remove previously indexed AI-generated asset filenames.
+RewriteRule ^assets/ChatGPT_Image_.*\.(png|jpe?g|webp)$ - [G,L,NC]
+
+# Keep the logo visible on the website but out of image search results.
+<IfModule mod_headers.c>
+  <FilesMatch "^autohilfe-zeller-logo.*\.png$">
+    Header set X-Robots-Tag "noindex, noimageindex"
+  </FilesMatch>
+</IfModule>
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.html [QSA,L]
